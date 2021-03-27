@@ -1,4 +1,6 @@
 import socket
+import json
+from controller import OperationController
 
 HOST      = '127.0.0.1'
 PORT      = 11111
@@ -19,9 +21,11 @@ class Server:
 			client, address = self.sock.accept()
 			data = client.recv(self.dataSize)
 			if data:
-				print("Receive data: %r" % data)
-				client.send(bytes('{"success": "true"}'.encode()))
-				print("sent back to %s:%s" % address)
+				print("Receive data: %s" % data)
+				response = OperationController(data).call()
+				client.send(json.dumps(response).encode())
+				print("Response: %s" % json.dumps(response).encode())
+				#client.send(bytes('{"success": "true"}'.encode()))
 			client.close()
 
 	def run(self):
