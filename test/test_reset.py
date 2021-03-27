@@ -1,7 +1,6 @@
-import client
 import unittest
 import json
-from testhelper import payloadFor, cli, resetSid, register, unregister, query
+from test.testhelper import payloadFor, cli, resetSid, register, unregister, query
 
 class TestReset(unittest.TestCase):
 	def setUp(self):

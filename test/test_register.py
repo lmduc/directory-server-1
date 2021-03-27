@@ -1,6 +1,6 @@
 import unittest
 import json
-from testhelper import payloadFor, cli, resetSid, register, unregister, query
+from test.testhelper import payloadFor, cli, resetSid, register, unregister, query
 
 class TestRegister(unittest.TestCase):
 	def setUp(self):

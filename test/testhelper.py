@@ -1,4 +1,4 @@
-import client
+import test.client
 import json
 
 HOST      = '127.0.0.1'
@@ -6,7 +6,7 @@ PORT      = 11111
 DATA_SIZE = 32
 
 def cli():
-  return client.Client(HOST, PORT, DATA_SIZE)
+  return test.client.Client(HOST, PORT, DATA_SIZE)
 
 def payloadFor(index, sid):
 	return {
