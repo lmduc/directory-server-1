@@ -20,7 +20,7 @@ class Server:
 			data = client.recv(self.dataSize)
 			if data:
 				print("Receive data: %r" % data)
-				client.send(data)
+				client.send(bytes('{"success": "true"}'.encode()))
 				print("sent back to %s:%s" % address)
 			client.close()
 
