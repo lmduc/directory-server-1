@@ -15,3 +15,11 @@ def query(sid):
 
 def reset(sid):
   storage.pop(sid, None)
+
+def delete(sid, name):
+  if sid not in storage:
+    return False
+  if name not in storage[sid]:
+    return False
+  storage[sid].pop(name, None)
+  return True
