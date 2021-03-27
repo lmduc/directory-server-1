@@ -2,7 +2,7 @@ import socket
 
 HOST      = '127.0.0.1'
 PORT      = 11111
-DATA_SIZE = 1024
+DATA_SIZE = 4096
 BACKLOG   = 1
 
 class Server:
@@ -15,14 +15,14 @@ class Server:
 
 	def listen(self):
 		while True:
-				print("Waiting to receive message")
-				client, address = self.sock.accept()
-				data = client.recv(self.dataSize)
-				if data:
-						print("Receive data: %r" % data)
-						client.send(data)
-						print("sent back to %s:%s" % address)
-				client.close()
+			print("Waiting to receive message")
+			client, address = self.sock.accept()
+			data = client.recv(self.dataSize)
+			if data:
+				print("Receive data: %r" % data)
+				client.send(data)
+				print("sent back to %s:%s" % address)
+			client.close()
 
 	def run(self):
 		self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
