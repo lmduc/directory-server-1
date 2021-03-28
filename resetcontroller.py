@@ -7,6 +7,5 @@ class ResetController:
     self.sid = payload["sid"]
 
   def call(self):
-    print("Reset SID: %r" % self.sid)
     database.reset(self.sid)
     return { "success": "true" }

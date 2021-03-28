@@ -10,7 +10,6 @@ class RegisterController:
 
   def call(self):
     if database.create(self.sid, self.name, self.value):
-      print("Register SID %s with name %s and value %s" % (self.sid, self.name, self.value))
       return { "success": "true" }
     else:
       return { "success": "false" }

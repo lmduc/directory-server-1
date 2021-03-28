@@ -69,3 +69,12 @@ def query(sid):
       )
     )
   )
+
+def exitServer():
+  cli().request(
+    json.dumps(
+      {
+        "operation": "exit"
+      }
+    )
+  )
