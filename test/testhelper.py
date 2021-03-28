@@ -22,7 +22,7 @@ def resetSid(sid):
         {
           "operation": "reset",
           "payload": {
-            "sid": "sid-1"
+            "sid": sid
           }
         }
       )

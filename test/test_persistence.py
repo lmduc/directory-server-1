@@ -6,6 +6,7 @@ from test.testhelper import resetSid, register, unregister, query, exitServer
 class TestPersistence(unittest.TestCase):
 	def setUp(self):
 		resetSid("sid-1")
+		resetSid("sid-2")
 
 	def testRegisterPersistence(self):
 		register(1, "sid-1")
