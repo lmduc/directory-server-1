@@ -8,7 +8,7 @@ BACKLOG   = 5
 PARALLEL  = 1
 
 def handleRequest(client, dataSize, semaphore):
-	data = client.recv(dataSize)
+	data = client.recv(dataSize).decode()
 	try:
 		if data:
 			print("[API] Receive data: %s" % data)
