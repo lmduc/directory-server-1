@@ -5,7 +5,7 @@ HOST      = '127.0.0.1'
 PORT      = 11111
 DATA_SIZE = 8192
 BACKLOG   = 5
-PARALLEL  = 1
+PARALLEL  = 5
 
 def handleRequest(client, dataSize, semaphore):
 	data = client.recv(dataSize).decode()
