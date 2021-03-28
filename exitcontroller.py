@@ -1,5 +1,5 @@
 import database
-import sys
+import os
 
 class ExitController:
   def __init__(self, data):
@@ -7,4 +7,4 @@ class ExitController:
 
   def call(self):
     database.persist()
-    sys.exit()
+    os._exit(1)

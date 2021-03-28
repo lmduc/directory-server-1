@@ -1,32 +1,40 @@
-import socket
-import json
-import database
+import socket, json, database, threading
 from controller import OperationController
 
 HOST      = '127.0.0.1'
 PORT      = 11111
-DATA_SIZE = 4096
-BACKLOG   = 1
+DATA_SIZE = 8192
+BACKLOG   = 5
+PARALLEL  = 1
+
+def handleRequest(client, dataSize, semaphore):
+	data = client.recv(dataSize)
+	try:
+		if data:
+			print("[API] Receive data: %s" % data)
+			response = OperationController(data).call()
+			client.send(json.dumps(response).encode())
+			print("[API] Response: %s" % json.dumps(response).encode())
+	finally:
+		semaphore.release()
+	client.close()
 
 class Server:
-	def __init__(self, host, port, dataSize, backlog):
-		self.host     = host
-		self.port     = port
-		self.dataSize = dataSize
-		self.backlog  = backlog
-		self.sock     = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	def __init__(self, host, port, dataSize, parallel, backlog):
+		self.host      = host
+		self.port      = port
+		self.dataSize  = dataSize
+		self.parallel  = parallel
+		self.backlog   = backlog
+		self.sock      = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.semaphore = threading.Semaphore(parallel)
 
 	def listen(self):
 		while True:
 			print("[API] Waiting to receive message")
+			self.semaphore.acquire()
 			client, address = self.sock.accept()
-			data = client.recv(self.dataSize)
-			if data:
-				print("[API] Receive data: %s" % data)
-				response = OperationController(data).call()
-				client.send(json.dumps(response).encode())
-				print("[API] Response: %s" % json.dumps(response).encode())
-			client.close()
+			threading.Thread(target=handleRequest, name=str(address), args=(client, self.dataSize, self.semaphore)).start()
 
 	def run(self):
 		self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -37,5 +45,5 @@ class Server:
 
 if __name__ == '__main__':
 	database.load()
-	server = Server(HOST, PORT, DATA_SIZE, BACKLOG)
+	server = Server(HOST, PORT, DATA_SIZE, PARALLEL, BACKLOG)
 	server.run()
